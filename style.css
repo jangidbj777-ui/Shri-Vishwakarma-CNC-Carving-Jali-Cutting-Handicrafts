@@ -59,18 +59,16 @@ body{
     justify-content:center;
     align-items:center;
     text-align:center;
-
+    padding:20px;
     background:
     linear-gradient(
         rgba(0,0,0,0.5),
         rgba(0,0,0,0.5)
     ),
     url("https://images.unsplash.com/photo-1505693416388-ac5ce068fe85");
-
     background-size:cover;
     background-position:center;
     color:white;
-    padding:20px;
 }
 
 .hero-content h1{
@@ -95,7 +93,8 @@ body{
 }
 
 .btn:hover{
-    background:#6f4526;
+    background:#6f482b;
+    transform:translateY(-3px);
 }
 
 /* SECTIONS */
@@ -108,6 +107,7 @@ section h2{
     text-align:center;
     font-size:40px;
     margin-bottom:40px;
+    color:#8B5E3C;
 }
 
 /* PRODUCTS */
@@ -147,14 +147,14 @@ section h2{
     color:#666;
 }
 
-/* CNC */
+/* CNC SECTION */
 
 .cnc-section{
     background:#fff;
 }
 
 .cnc-section .card img{
-    height:350px;
+    height:320px;
 }
 
 /* ABOUT */
@@ -168,6 +168,7 @@ section h2{
     max-width:900px;
     margin:auto;
     line-height:1.8;
+    font-size:18px;
 }
 
 /* GALLERY */
@@ -218,6 +219,7 @@ section h2{
 
 .contact p{
     margin:10px 0;
+    font-size:18px;
 }
 
 /* FOOTER */
@@ -240,7 +242,6 @@ footer{
     .hero-content p{
         font-size:18px;
     }
-
 }
 
 /* MOBILE */
@@ -255,12 +256,12 @@ footer{
     .logo{
         text-align:center;
         margin-bottom:15px;
-        font-size:22px;
+        font-size:20px;
     }
 
     .nav-links{
-        flex-direction:column;
-        align-items:center;
+        flex-wrap:wrap;
+        justify-content:center;
         gap:12px;
     }
 
@@ -289,7 +290,7 @@ footer{
     }
 
     .cnc-section .card img{
-        height:260px;
+        height:250px;
     }
 
     section{
@@ -313,8 +314,11 @@ footer{
         font-size:26px;
     }
 
+    .hero-content p{
+        font-size:15px;
+    }
+
     .btn{
         padding:12px 25px;
     }
-
 }
