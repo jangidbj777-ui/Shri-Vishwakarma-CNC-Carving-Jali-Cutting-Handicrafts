@@ -254,7 +254,23 @@ color:white;
 text-align:center;
 padding:25px;
 }
+@media (max-width: 600px) {
+    /* Hero section ki main heading ka size chhota karne ke liye */
+    .hero-content h1 {
+        font-size: 24px !important; /* Pehle 28px ya 60px tha, ab screen par perfect fit hoga */
+        line-height: 1.3 !important; /* Lines ke beech ka gap maintain karne ke liye */
+        margin-bottom: 12px !important;
+        padding: 0 10px !important; /* Side se thoda space dene ke liye */
+    }
 
+    /* Hero section ke paragraph (sub-text) ko adjust karne ke liye */
+    .hero-content p {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 20px !important;
+        padding: 0 15px !important;
+    }
+}
 /* FORCE RESET FOR MOBILE HEADER */
 @media (max-width: 600px) {
     /* Header container ko row se column me convert kiya */
