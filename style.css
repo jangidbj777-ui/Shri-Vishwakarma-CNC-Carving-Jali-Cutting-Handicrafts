@@ -1,8 +1,3 @@
-Aapke CSS code me problem is wajah se aa rahi hai kyunki mobile screen par logo, brand name, aur saare links ek hi line (`flex-direction: row`) me aane ki koshish kar rahe hain. Isse space kam pad raha hai aur sab aapas me takra rahe hain.
-
-Isko perfect karne ke liye maine aapke `@media (max-width: 600px)` wale hisse me thoda badlaav kiya hai. Ab mobile par **Logo upar center me** dikhega aur **saare links uske theek neeche ek perfect line me** set ho jayenge, jisse space bhi kam ho jayega aur design ekdum clean lagega.
-
-Aap is poore code ko copy karke apne purane code se replace kar sakte hain:
 
 ```css
 *{
