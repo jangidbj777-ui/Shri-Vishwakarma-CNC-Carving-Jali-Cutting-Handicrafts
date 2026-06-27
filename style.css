@@ -1,5 +1,3 @@
-
-```css
 *{
 margin:0;
 padding:0;
@@ -259,46 +257,50 @@ padding:25px;
 
 /* MOBILE RESPONSIVE CODES FIXED */
 @media (max-width: 600px) {
-    /* Navbar fixed: Logo upar aur links neat line me neeche */
+    /* Navbar container ko row se column me badlein taki links logo ke neeche aayein */
     .navbar {
         flex-direction: column;
         align-items: center;
-        padding: 10px;
-        gap: 8px;
+        text-align: center;
+        padding: 15px 10px 10px 10px; /* Padding thoda adjust kiya space bachane ke liye */
+        gap: 15px; /* Logo aur links ke beech ka gap */
     }
     
+    /* Logo section ko center karne ke liye */
     .logo {
         flex-direction: column;
-        gap: 4px;
-        text-align: center;
+        gap: 6px;
+        align-items: center;
+        justify-content: center;
     }
 
     .logo img {
-        width: 55px;
-        height: 55px;
+        width: 65px;
+        height: 65px;
     }
 
     .logo-text h2 {
-        font-size: 18px;
+        font-size: 20px;
     }
     
     .logo-text span {
-        font-size: 11px;
+        font-size: 12px;
     }
 
-    /* Saare links ek hi line me bina wrap hue barabar set honge */
+    /* Links container ko 1st photo ki tarah ek single straight line me lane ke liye */
     .nav-links {
         flex-direction: row;
-        flex-wrap: nowrap;
-        gap: 12px;
+        flex-wrap: nowrap; /* Elements ko next line me break hone se rokega */
+        gap: 15px; /* Links ke aapas ka gap */
         width: 100%;
-        justify-content: center;
-        padding: 4px 0;
+        justify-content: center; /* Saare links ko horizontal center me rakhega */
+        padding: 0;
+        margin: 0;
     }
 
     .nav-links a {
-        font-size: 12px;
-        white-space: nowrap;
+        font-size: 13px;
+        white-space: nowrap; /* Text ko todne se rokega */
     }
     
     /* Hero Section text size fix for mobile */
@@ -354,5 +356,3 @@ padding:25px;
         padding: 0 4px 10px 4px;
     }
 }
-
-```
