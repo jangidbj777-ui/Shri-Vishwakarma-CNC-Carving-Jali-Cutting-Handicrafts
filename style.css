@@ -66,7 +66,10 @@ font-weight:500;
 transition:0.3s;
 }
 
-.nav-links a:hover
+/* FIX: Hover state completely closed now */
+.nav-links a:hover {
+color: #8B5E3C;
+}
 
 /* HERO */
 
@@ -251,97 +254,73 @@ color:white;
 text-align:center;
 padding:25px;
 }
-/* --- PHONE (MOBILE) RESPONSIVE CODE --- */
+
+/* MOBILE RESPONSIVE CODES FIXED */
 @media (max-width: 600px) {
-    
-    /* 1. Navbar menu ko ek line me fit aur scroll karne ke liye */
+    /* Navbar text size fix for small screen */
+    .logo-text h2 {
+        font-size: 18px;
+    }
+    .navbar {
+        padding: 10px 4%;
+    }
     .nav-links {
-        display: flex !important;
-        flex-direction: row !important; /* Items ko left-to-right ek line me rakhne ke liye */
-        flex-wrap: nowrap !important; /* Agli line me na jayein */
-        justify-content: flex-start !important; /* Left se start honge */
-        gap: 8px !important; /* Do links ke beech ka gap kam kiya */
-        overflow-x: auto !important; /* Choti screen par horizontal scroll chalega */
-        padding: 10px 5px !important;
-        -webkit-overflow-scrolling: touch; /* Mobile me smooth scroll ke liye */
-    }
-
-    /* Navbar links ka text aur space chota karne ke liye */
-    .nav-links li a {
-        font-size: 13px !important; /* Text thoda chhota kiya */
-        padding: 6px 10px !important; /* Space kam kiya */
-        white-space: nowrap !important; /* Text tootkar niche na aaye */
-    }
-
-    /* Scrollbar ko chupaane ke liye (taki menu ganda na dikhe) */
-    .nav-links::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* 2. Products Section: Ek line me 2 photos dikhane ke liye */
-    .product-container {
-        display: flex;
-        flex-wrap: wrap;
         gap: 12px;
-        padding: 10px;
-        justify-content: space-between;
     }
-
-    .card {
-        width: calc(50% - 6px);
-        box-sizing: border-box;
-        margin-bottom: 15px;
-        padding: 8px !important; 
+    .nav-links a {
+        font-size: 13px;
     }
-
-    .card img {
-        width: 100%;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 6px;
+    
+    /* Hero Section text size fix for mobile */
+    .hero-content h1 {
+        font-size: 28px;
     }
-
-    .card h3 {
+    .hero-content p {
         font-size: 14px;
-        margin: 6px 0 2px 0;
+    }
+    section {
+        padding: 40px 4%;
+    }
+    section h2 {
+        font-size: 26px;
+        margin-bottom: 25px;
     }
 
-    .card p {
-        font-size: 11px;
-        line-height: 1.3;
-    }
-}
-/* laptop me jaisa tha waisa hi rahega, sirf phone (mobile) me ek line me 2 photos dikhenge */
-@media (max-width: 600px) {
+    /* 1 line me barabar 2 cards lane ka system code */
     .product-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px; /* Dono photos ke beech ka gap */
-        padding: 10px;
+        gap: 10px; 
+        padding: 0px;
         justify-content: space-between;
     }
 
     .card {
-        width: calc(50% - 6px); /* Phone me barabar 2 cards lane ke liye */
+        width: calc(50% - 5px); 
         box-sizing: border-box;
-        margin-bottom: 15px;
-        padding: 8px !important; 
+        margin-bottom: 10px;
+        border-radius: 12px;
     }
 
     .card img {
         width: 100%;
-        height: 140px; /* Phone me photo ki height code */
+        height: 130px; 
         object-fit: cover;
-        border-radius: 6px;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .cnc-section .card img {
+        height: 130px; /* CNC mobile images are also adjusted */
     }
 
     .card h3 {
-        font-size: 14px;
-        margin: 6px 0 2px 0;
+        font-size: 13px;
+        margin: 8px 4px 2px 4px;
     }
 
     .card p {
-        font-size: 11px;
-        line-height: 1.3;
+        font-size: 10px;
+        line-height: 1.2;
+        padding: 0 4px 10px 4px;
     }
 }
