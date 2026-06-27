@@ -1,3 +1,10 @@
+Aapke CSS code me problem is wajah se aa rahi hai kyunki mobile screen par logo, brand name, aur saare links ek hi line (`flex-direction: row`) me aane ki koshish kar rahe hain. Isse space kam pad raha hai aur sab aapas me takra rahe hain.
+
+Isko perfect karne ke liye maine aapke `@media (max-width: 600px)` wale hisse me thoda badlaav kiya hai. Ab mobile par **Logo upar center me** dikhega aur **saare links uske theek neeche ek perfect line me** set ho jayenge, jisse space bhi kam ho jayega aur design ekdum clean lagega.
+
+Aap is poore code ko copy karke apne purane code se replace kar sakte hain:
+
+```css
 *{
 margin:0;
 padding:0;
@@ -257,18 +264,46 @@ padding:25px;
 
 /* MOBILE RESPONSIVE CODES FIXED */
 @media (max-width: 600px) {
-    /* Navbar text size fix for small screen */
+    /* Navbar fixed: Logo upar aur links neat line me neeche */
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .logo {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+    }
+
+    .logo img {
+        width: 55px;
+        height: 55px;
+    }
+
     .logo-text h2 {
         font-size: 18px;
     }
-    .navbar {
-        padding: 10px 4%;
+    
+    .logo-text span {
+        font-size: 11px;
     }
+
+    /* Saare links ek hi line me bina wrap hue barabar set honge */
     .nav-links {
+        flex-direction: row;
+        flex-wrap: nowrap;
         gap: 12px;
+        width: 100%;
+        justify-content: center;
+        padding: 4px 0;
     }
+
     .nav-links a {
-        font-size: 13px;
+        font-size: 12px;
+        white-space: nowrap;
     }
     
     /* Hero Section text size fix for mobile */
@@ -310,7 +345,7 @@ padding:25px;
     }
 
     .cnc-section .card img {
-        height: 130px; /* CNC mobile images are also adjusted */
+        height: 130px;
     }
 
     .card h3 {
@@ -324,3 +359,5 @@ padding:25px;
         padding: 0 4px 10px 4px;
     }
 }
+
+```
