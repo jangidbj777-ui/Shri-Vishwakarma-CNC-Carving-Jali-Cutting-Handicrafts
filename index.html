@@ -17,7 +17,17 @@
             --bg-light: #FDFBF7; 
             --text-dark: #1C1A17; 
             --text-muted: #7A746B;
+            --card-border: #EAE6DF;
             --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- DARK MODE OVERRIDES --- */
+        [data-theme="dark"] {
+            --white: #1A1917;
+            --bg-light: #11100E;
+            --text-dark: #F5F4F0;
+            --text-muted: #A39E95;
+            --card-border: #2D2B27;
         }
 
         * {
@@ -32,6 +42,7 @@
             background-color: var(--bg-light);
             color: var(--text-dark);
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Luxury Preloader */
@@ -73,7 +84,7 @@
             display: inline-block;
             padding: 14px 35px;
             background: linear-gradient(135deg, #E6C657, var(--dark-gold));
-            color: var(--white);
+            color: #FFFFFF;
             text-decoration: none;
             font-weight: 500;
             text-transform: uppercase;
@@ -105,6 +116,10 @@
             z-index: 1000;
             box-shadow: 0 4px 30px rgba(0,0,0,0.02);
             border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: background-color 0.3s ease;
+        }
+        [data-theme="dark"] .navbar {
+            background: rgba(26, 25, 23, 0.95);
         }
         .logo {
             display: flex;
@@ -133,10 +148,15 @@
             font-weight: 500;
             display: block;
         }
+        .nav-right-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 25px;
             align-items: center;
         }
         .nav-links a {
@@ -158,12 +178,19 @@
             transition: var(--transition);
             transform: translateX(-50%);
         }
-        .nav-links a:hover::after, .nav-links a.active::after {
-            width: 100%;
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover { color: var(--primary-gold); }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: var(--transition);
         }
-        .nav-links a:hover {
-            color: var(--primary-gold);
-        }
+        .theme-toggle-btn:hover { color: var(--primary-gold); }
 
         .hamburger {
             display: none;
@@ -200,7 +227,10 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.65);
+        }
+        [data-theme="dark"] .slide::before {
+            background: rgba(17, 16, 14, 0.75);
         }
         .hero-content {
             position: relative;
@@ -226,9 +256,7 @@
         }
 
         /* Sections Common styling */
-        section {
-            padding: 80px 8%;
-        }
+        section { padding: 80px 8%; }
         .section-title {
             font-family: 'Cinzel', serif;
             text-align: center;
@@ -255,7 +283,36 @@
             text-transform: uppercase;
         }
 
-        /* Mobile Responsive Filter Buttons Fix */
+        /* Advanced Search Bar Styling */
+        .search-wrapper {
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border: 1px solid var(--card-border);
+            background-color: var(--white);
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 4px 15px rgba(170, 124, 17, 0.05);
+        }
+        .search-wrapper i {
+            position: absolute;
+            left: 18px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-gold);
+            font-size: 1rem;
+        }
+
+        /* Filter Buttons */
         .filter-container {
             display: flex;
             justify-content: center;
@@ -278,11 +335,11 @@
         .filter-btn.active, .filter-btn:hover {
             border-color: var(--primary-gold);
             background: linear-gradient(135deg, #E6C657, var(--dark-gold));
-            color: var(--white);
+            color: #FFFFFF;
             box-shadow: 0 4px 15px rgba(170, 124, 17, 0.15);
         }
 
-        /* Card Grid Setup */
+        /* Upgraded Premium Hover Cards */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -292,13 +349,28 @@
             background: var(--white);
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.02);
-            border: 1px solid #EAE6DF;
+            border: 1px solid var(--card-border);
             transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 1px solid var(--primary-gold);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+        .card:hover::before {
+            opacity: 1;
         }
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(170, 124, 17, 0.12);
-            border-color: var(--primary-gold);
+            box-shadow: 0 20px 40px rgba(170, 124, 17, 0.15);
         }
         .card-img-wrapper {
             position: relative;
@@ -311,14 +383,22 @@
             object-fit: cover;
             transition: var(--transition);
         }
-        .card:hover .card-img-wrapper img {
-            transform: scale(1.06);
+        .card:hover .card-img-wrapper img { 
+            transform: scale(1.08); 
+            filter: brightness(0.9);
         }
         .card-info {
             padding: 20px;
             text-align: center;
             background: var(--white);
-            border-top: 1px solid #F7F5F0;
+            border-top: 1px solid var(--card-border);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            transition: var(--transition);
         }
         .card-info h3 {
             font-family: 'Cinzel', serif;
@@ -326,19 +406,15 @@
             margin-bottom: 6px;
             color: var(--text-dark);
             font-weight: 600;
+            transition: var(--transition);
+        }
+        .card:hover .card-info h3 {
+            color: var(--dark-gold);
         }
         .card-info p {
             color: var(--text-muted);
             font-size: 0.85rem;
-        }
-
-        .grid-item { 
-            display: block; 
-            animation: fadeIn 0.5s ease; 
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-bottom: 0;
         }
 
         /* Services Grid Setup */
@@ -351,7 +427,7 @@
             background: var(--white);
             padding: 40px 25px;
             text-align: center;
-            border: 1px solid #EAE6DF;
+            border: 1px solid var(--card-border);
             position: relative;
             transition: var(--transition);
         }
@@ -379,52 +455,84 @@
         }
         .service-card:hover::after { height: 3px; }
 
+        /* Accordion FAQ Section */
+        .faq-max-width {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--white);
+            border: 1px solid var(--card-border);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            user-select: none;
+            transition: var(--transition);
+        }
+        .faq-question:hover { color: var(--dark-gold); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 25px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-item.active .faq-answer { padding: 5px 25px 25px 25px; max-height: 200px; }
+        .faq-icon { transition: transform 0.3s ease; font-size: 0.9rem; color: var(--primary-gold); }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+
         /* About Section */
         .about-content {
             background: var(--white);
             padding: 45px 30px;
-            border: 1px solid #EAE6DF;
+            border: 1px solid var(--card-border);
             border-top: 4px solid var(--primary-gold);
             max-width: 850px;
             margin: 0 auto;
             text-align: center;
         }
-        .about-content p {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: var(--text-muted);
-        }
+        .about-content p { font-size: 1.05rem; line-height: 1.8; color: var(--text-muted); }
 
-        /* Contact Section Details (Without Map) */
-        .contact-wrapper {
-            max-width: 700px;
+        /* Contact Box Layout */
+        .contact-details-full {
+            max-width: 850px;
             margin: 0 auto;
-        }
-        .contact-details {
             background: var(--white);
             padding: 40px;
-            border: 1px solid #EAE6DF;
-            border-left: 4px solid var(--primary-gold);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.01);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--primary-gold);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
         }
         .contact-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 25px;
+            text-align: center;
+            gap: 12px;
         }
-        .contact-item:last-child { margin-bottom: 0; }
         .contact-item i {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--dark-gold);
-            width: 40px; height: 40px;
-            background: #FAF6EE;
+            width: 45px; height: 45px;
+            background: rgba(212, 175, 55, 0.05);
             display: flex; justify-content: center; align-items: center;
             border-radius: 50%;
             border: 1px solid rgba(212,175,55,0.15);
-            flex-shrink: 0;
         }
-        .contact-item p { font-size: 0.95rem; color: var(--text-dark); }
+        .contact-item p { font-size: 0.9rem; color: var(--text-dark); }
 
         /* Footer */
         footer {
@@ -443,7 +551,7 @@
             position: fixed;
             width: 50px; height: 50px;
             border-radius: 50%;
-            color: var(--white);
+            color: #FFFFFF;
             display: flex; justify-content: center; align-items: center;
             font-size: 1.3rem;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -474,7 +582,6 @@
         }
         .scroll-top.show { opacity: 1; visibility: visible; }
 
-        /* Lightbox Modals */
         #customLightbox {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -484,19 +591,16 @@
             justify-content: center;
             align-items: center;
         }
-        #customLightbox img {
-            max-width: 90%; max-height: 80%;
-            border: 1px solid var(--primary-gold);
-        }
+        #customLightbox img { max-width: 90%; max-height: 80%; border: 1px solid var(--primary-gold); }
         #customLightbox .close-btn {
             position: absolute;
             top: 20px; right: 25px;
-            color: var(--white);
+            color: #FFFFFF;
             font-size: 2.5rem;
             cursor: pointer;
         }
 
-        /* Responsive UI Layouts & Mobile Proper View Fixes */
+        /* Responsive Layout Fixes */
         @media (max-width: 992px) {
             .navbar { padding: 15px 5%; }
             .hero-content h1 { font-size: 2.6rem; }
@@ -521,24 +625,16 @@
             .hero-content p { font-size: 1rem; }
             .section-title { font-size: 1.8rem; }
             
-            /* Horizontal Scroll Fix for Mobile Filter Buttons */
             .filter-container {
                 justify-content: flex-start;
                 overflow-x: auto;
                 padding: 10px 5px;
                 width: 100%;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none; /* Hide standard scrollbar */
+                scrollbar-width: none;
             }
-            .filter-container::-webkit-scrollbar {
-                display: none; /* Hide chrome/safari scrollbar */
-            }
-            .filter-btn {
-                padding: 8px 18px;
-                font-size: 0.75rem;
-            }
-            
-            .contact-details { padding: 25px; }
+            .filter-container::-webkit-scrollbar { display: none; }
+            .filter-btn { padding: 8px 18px; font-size: 0.75rem; }
+            .contact-details-full { padding: 25px; }
         }
     </style>
 </head>
@@ -556,9 +652,16 @@
             <span>Handicraft & Timber</span>
         </div>
     </div>
-    <div class="hamburger" id="hamburger">
-        <i class="fa-solid fa-bars"></i>
+    
+    <div class="nav-right-container">
+        <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <div class="hamburger" id="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </div>
     </div>
+
     <ul class="nav-links" id="nav-links">
         <li><a href="#home" class="nav-item">Home</a></li>
         <li><a href="#gallery" class="nav-item">Our Gallery</a></li>
@@ -583,8 +686,13 @@
 
 <section id="gallery" class="reveal">
     <h2 class="section-title">Our Premium Showcase</h2>
-    <p class="section-subtitle">Browse our complete collection</p>
+    <p class="section-subtitle">Browse collection & inquire instantly</p>
     
+    <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="gallery-search" class="search-input" placeholder="Search design (e.g. sofa, door, bed, jali)..." onkeyup="searchGallery()">
+    </div>
+
     <div class="filter-container">
         <button class="filter-btn active" onclick="filterGallery('all')">Show All</button>
         <button class="filter-btn" onclick="filterGallery('factory')">Factory Products</button>
@@ -598,219 +706,75 @@
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" alt="Luxury Sofa">
             </div>
-            <div class="card-info"><h3>Luxury Sofa</h3><p>Modern Premium Sofa Collection</p></div>
+            <div class="card-info">
+                <h3>Luxury Sofa</h3>
+                <p>Modern Premium Sofa Collection</p>
+            </div>
         </div>
         <div class="card grid-item factory">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCgeyzLVRXRlnHcOoqmwxm76QWg-GqhygEpf7oULcb9JyjbalWBGZXGglX&s=10" alt="Dining Table">
             </div>
-            <div class="card-info"><h3>Dining Table</h3><p>Elegant Dining Furniture</p></div>
+            <div class="card-info">
+                <h3>Dining Table</h3>
+                <p>Elegant Dining Furniture</p>
+            </div>
         </div>
         <div class="card grid-item factory">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://images.unsplash.com/photo-1517705008128-361805f42e86" alt="Wooden Chair">
             </div>
-            <div class="card-info"><h3>Wooden Chair</h3><p>Stylish Wooden Chairs</p></div>
+            <div class="card-info">
+                <h3>Wooden Chair</h3>
+                <p>Stylish Wooden Chairs</p>
+            </div>
         </div>
         <div class="card grid-item factory">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85" alt="Bed">
             </div>
-            <div class="card-info"><h3>Bed</h3><p>Luxury Wooden Beds</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2" alt="Wardrobe">
+            <div class="card-info">
+                <h3>Bed</h3>
+                <p>Luxury Wooden Beds</p>
             </div>
-            <div class="card-info"><h3>Wooden Wardrobe</h3><p>Premium Bedroom Almari Solutions</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9BtMs46fkA2JZN6-RCD6UIQhz4IHfiKv41xhJYZk0UA&s=10" alt="TV Unit">
-            </div>
-            <div class="card-info"><h3>Modern TV Unit</h3><p>Elegant Living Room LED Panels</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxT2gM2ufTj8HS0ocWP32M019zSG9j4PE1sghydmzig&s=10" alt="Dressing Table">
-            </div>
-            <div class="card-info"><h3>Dressing Table</h3><p>Stylish Wooden Makeup Vanity</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEhGeF_baVfvNALq9Tf824evqHXcr5kevBpTQy2528Kw&s=10" alt="Office Table">
-            </div>
-            <div class="card-info"><h3>Office Table</h3><p>Executive Wooden Desk for Work</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkTRfmSkI6nVJbTJ0Wn-mVJ0JdEq7gTs0FjpJW2X3Kw&s=10" alt="Sofa Chair">
-            </div>
-            <div class="card-info"><h3>Armchair & Lounge</h3><p>Comfortable Wooden Accent Chairs</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_RSI0mMv8029yl_JrXIrX-6ioGX4v65YgpS8BnHJFA&s=10" alt="Shoe Rack">
-            </div>
-            <div class="card-info"><h3>Wooden Shoe Rack</h3><p>Organized Home Entryway Furniture</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHTrRx4jBvcr5c0jOt9ges3xBOZN_WOji79-PabIvsXQ&s=10" alt="Stool">
-            </div>
-            <div class="card-info"><h3>Bar & Counter Stool</h3><p>Premium High-Quality Wooden Stools</p></div>
-        </div>
-        <div class="card grid-item factory">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8sgzllpf4TccTOOeVUtntiCmhA5OEj0QfEClkH1gzrw&s=10" alt="Bookshelf">
-            </div>
-            <div class="card-info"><h3>Designer Bookshelf</h3><p>Luxury Library & Book Display Racks</p></div>
         </div>
 
         <div class="card grid-item cnc">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVf79DgkVoYB19aXhAiE94Vzv8wPdafM2sc_dc2JUFnoqMXrglkL_C_1I&s=10" alt="CNC Door">
             </div>
-            <div class="card-info"><h3>CNC Door Design</h3><p>Premium Wooden Door Designs</p></div>
+            <div class="card-info">
+                <h3>CNC Door Design</h3>
+                <p>Premium Wooden Door Designs</p>
+            </div>
         </div>
         <div class="card grid-item cnc">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAGRw-7oBIUXIX5bL3Ies2MX4M7mt_CAqEwLR6a8Y_Mg&s=10" alt="Jali Cutting">
             </div>
-            <div class="card-info"><h3>Jali Cutting</h3><p>Decorative CNC Jali Work</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSqiCmv1crBXZE1K-Si2ZLi7kUFzWzvRw0KCq0PxjEdQ&s=10" alt="Round Design">
+            <div class="card-info">
+                <h3>Jali Cutting</h3>
+                <p>Decorative CNC Jali Work</p>
             </div>
-            <div class="card-info"><h3>Round Design</h3><p>Custom CNC Cutting Designs</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtaGWNiV5LoEYVp3zLXItnXUzEvKESQfcDWCR5pr4T9g&s=10" alt="Wood Carving">
-            </div>
-            <div class="card-info"><h3>Wood Carving</h3><p>Luxury CNC Wooden Art</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRltnWB8B5adF-cR53ssyS8V-Agu4dX0rjNUjsXrz9eXQ&s=10" alt="Mandir Back Panel">
-            </div>
-            <div class="card-info"><h3>Mandir Back Panel</h3><p>Divine Patterns for Pooja Room Backdrops</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDlb1JEGNA2Wu6fDj0l-xyvIu13LGUXX97hj9K9N5nf5R2LChZp5hSBQU&s=10" alt="Bed Headboard Design">
-            </div>
-            <div class="card-info"><h3>Bed Headboard Design</h3><p>Elegant 3D Carving for Luxury Beds</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhYc0E6K9syaSEvnb9f6Zk5V99CAD0aWnFnCTcIw7_UA&s=10" alt="Ceiling Jali">
-            </div>
-            <div class="card-info"><h3>Roof Ceiling Jali</h3><p>CNC Jali Work for Interior Roof Lighting</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Agvpdgl0v0K-nVZYo6VQeCE4vx8s4xEAk-yJSbdmkg&s=10" alt="Corner Design">
-            </div>
-            <div class="card-info"><h3>Corner & Border Carving</h3><p>Decorative Corner Borders for Frames & Pillars</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSKEJp97hdKUj6_PD7bgg4W-X-Gd1VYRxqjsBzdVU-Q&s=10" alt="Cabinet Door">
-            </div>
-            <div class="card-info"><h3>Cabinet Wardrobe CNC</h3><p>Grooving on Wardrobe Shutters</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://images.jdmagicbox.com/quickquotes/images_main/mtc0njuznjy3mg-1746536672-yzzb84f2.jpg" alt="Wooden Arch Gate">
-            </div>
-            <div class="card-info"><h3>Wooden Arch Gate</h3><p>CNC Carving for Traditional Openings</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbo2mABfjlr2D97SfK3xNcCHLHq3bfs59eWwn4-ZoFKw&s=10" alt="Partition Wall">
-            </div>
-            <div class="card-info"><h3>Room Partition Jali</h3><p>Modern Living Room Divider Work</p></div>
-        </div>
-        <div class="card grid-item cnc">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0JT8YCYk0DQKiLIqNA6xpp9UC2kYqBAUKHmS192xCw&s=10" alt="Custom MDF Panels">
-            </div>
-            <div class="card-info"><h3>3D Wave Wall Panel</h3><p>MDF CNC Carving for Wall Decoration</p></div>
         </div>
 
         <div class="card grid-item molding">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoEvzmuXoUgVxoF34xNdJrZkk4qbhMgn37rA&s" alt="CNC Door">
-            </div>
-            <div class="card-info"><h3>CNC Door Design</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcdAyfHo_ihgxEnNpqwrefWZNcI6DvfWyKww&s" alt="Door Molding">
             </div>
-            <div class="card-info"><h3>Door Molding</h3><p>Premium Molding work</p></div>
+            <div class="card-info">
+                <h3>Door Molding</h3>
+                <p>Premium Molding work</p>
+            </div>
         </div>
         <div class="card grid-item molding">
             <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
                 <img src="https://i.pinimg.com/236x/6c/aa/53/6caa53417c1a37eaa6066859b9281b4d.jpg" alt="Wall Molding">
             </div>
-            <div class="card-info"><h3>Wood Molding on Walls</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://www.wellsreclamation.com/images/products/standard/1077g.jpg" alt="Wood Molding">
+            <div class="card-info">
+                <h3>Wood Molding on Walls</h3>
+                <p>Premium Molding work</p>
             </div>
-            <div class="card-info"><h3>Wood Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://5.imimg.com/data5/SELLER/Default/2023/5/306763274/OB/AR/CP/29707017/whatsapp-image-2023-05-09-at-2-40-13-pm-500x500.jpeg" alt="MDF Molding">
-            </div>
-            <div class="card-info"><h3>MDF Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://legnoform.it/images/dettagli/lineare_con_rosette.jpg" alt="Main Door Molding">
-            </div>
-            <div class="card-info"><h3>Main Door Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://i.etsystatic.com/60776200/r/il/a62427/8095907674/il_fullxfull.8095907674_3du1.jpg" alt="New Look Molding">
-            </div>
-            <div class="card-info"><h3>New Look Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1ELpm8GZIV-qCv0DLc5Y7JkoKP2yLMK4sg&s" alt="Corner Border Molding">
-            </div>
-            <div class="card-info"><h3>Corner & Border Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5JyhhNlkDynbW5JaL69xekub0pjDoOC0rZBWmcPbolA&s" alt="Look Molding">
-            </div>
-            <div class="card-info"><h3>Look Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgsprvniUn8AqhN-pH1vRPsK7cVz19TTA8Gw&s" alt="Side Corner Molding">
-            </div>
-            <div class="card-info"><h3>Side Corner Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg8g-T4xquCPU_wjJ1wyYs687o6P86GvpY2Q&s" alt="Old Look Molding">
-            </div>
-            <div class="card-info"><h3>Old Look Molding</h3><p>Premium Molding work</p></div>
-        </div>
-        <div class="card grid-item molding">
-            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
-                <img src="https://i.pinimg.com/236x/8b/e4/27/8be4273471a964f97d398293e14d6bce.jpg" alt="Cornice Design">
-            </div>
-            <div class="card-info"><h3>Cornice Design</h3><p>Premium Molding work</p></div>
         </div>
 
     </div>
@@ -843,6 +807,35 @@
     </div>
 </section>
 
+<section id="faq" class="reveal">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-subtitle">Find quick answers to your queries</p>
+    
+    <div class="faq-max-width">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Do you deliver products outside Rajasthan?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">Yes, we provide premium packaging and delivery services for custom furniture and carved materials across India.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I give my custom design for CNC or Jali cutting?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">Absolutely. You can share your own 2D/3D CAD design files, sketches, or photos, and our CNC machinery experts will carve it flawlessly.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What type of wood do you use?</span>
+                <i class="fa-solid fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">We primary deal in high-grade authentic Teak wood (Sagwan), Sheesham, Premium MDF, Commercial Plywood, and custom timber materials according to budget needs.</div>
+        </div>
+    </div>
+</section>
+
 <section id="about" class="reveal" style="background-color: #FAF8F5;">
     <h2 class="section-title">About Us</h2>
     <p class="section-subtitle">Legacy of wooden craftsmanship</p>
@@ -855,26 +848,28 @@
 
 <section id="contact" class="reveal">
     <h2 class="section-title">Connect With Us</h2>
-    <p class="section-subtitle">Get instant custom item quotes or visit our facility</p>
+    <p class="section-subtitle">Get in touch directly or visit our premium factory facility</p>
     
-    <div class="contact-wrapper">
-        <div class="contact-details">
-            <div class="contact-item">
-                <i class="fa-solid fa-user"></i>
-                <div><p style="font-weight:600; letter-spacing: 0.5px;">Owner</p><p>Chanana Ram Ji Suthar</p></div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-phone"></i>
-                <div><p style="font-weight:600; letter-spacing: 0.5px;">Phone Number</p><p>+91 9413576761</p></div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-envelope"></i>
-                <div><p style="font-weight:600; letter-spacing: 0.5px;">Email Address</p><p>info@vishwakarmafurniture.com</p></div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-location-dot"></i>
-                <div><p style="font-weight:600; letter-spacing: 0.5px;">Factory Location</p><p>17A Bhadu Market, Pal Road, Jodhpur, Rajasthan - 342005</p></div>
-            </div>
+    <div class="contact-details-full">
+        <div class="contact-item">
+            <i class="fa-solid fa-user"></i>
+            <p style="font-weight:600; letter-spacing: 0.5px;">Owner</p>
+            <p>Chanana Ram Ji Suthar</p>
+        </div>
+        <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <p style="font-weight:600; letter-spacing: 0.5px;">Phone Number</p>
+            <p>+91 9413576761</p>
+        </div>
+        <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <p style="font-weight:600; letter-spacing: 0.5px;">Email Address</p>
+            <p>info@vishwakarmafurniture.com</p>
+        </div>
+        <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <p style="font-weight:600; letter-spacing: 0.5px;">Factory Location</p>
+            <p>17A Bhadu Market, Pal Road, Jodhpur, Rajasthan - 342005</p>
         </div>
     </div>
 </section>
@@ -899,6 +894,43 @@
         loader.style.opacity = '0';
         setTimeout(() => loader.style.display = 'none', 600);
     });
+
+    // Dark/Light Premium Theme Switching System
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        let targetTheme = 'light';
+        
+        if (currentTheme !== 'dark') {
+            targetTheme = 'dark';
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        } else {
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+        
+        document.documentElement.setAttribute('data-theme', targetTheme);
+    });
+
+    // Live Search Engine Filtering for Showcase Cards
+    function searchGallery() {
+        const searchInput = document.getElementById('gallery-search').value.toLowerCase();
+        const cards = document.querySelectorAll('.grid-item');
+        
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        buttons[0].classList.add('active');
+
+        cards.forEach(card => {
+            const title = card.querySelector('h3').innerText.toLowerCase();
+            const description = card.querySelector('p').innerText.toLowerCase();
+            
+            if (title.includes(searchInput) || description.includes(searchInput)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
 
     // Mobile Navigation Hamburger Control
     const hamburger = document.getElementById('hamburger');
@@ -931,19 +963,25 @@
 
     // Dynamic Gallery Sorting Logic Engine
     function filterGallery(category) {
+        document.getElementById('gallery-search').value = "";
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
-        
         if(event) { event.target.classList.add('active'); }
 
         const targetItems = document.querySelectorAll('.grid-item');
         targetItems.forEach(item => {
             if (category === 'all' || item.classList.contains(category)) {
-                item.style.display = 'block';
+                item.style.display = 'flex';
             } else {
                 item.style.display = 'none';
             }
         });
+    }
+
+    // Interactive Accordion FAQ Engine
+    function toggleFaq(element) {
+        const item = element.parentElement;
+        item.classList.toggle('active');
     }
 
     // Image Lightbox View Manager
@@ -955,6 +993,7 @@
         document.body.style.overflow = "hidden"; 
     }
 
+    // Close Lightbox
     function closeLightbox() {
         const lightbox = document.getElementById("customLightbox");
         lightbox.style.display = "none"; 
@@ -981,7 +1020,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Scroll Reveal Trigger
+    // Scroll Reveal Trigger System
     function revealSectionsOnScroll() {
         const reveals = document.querySelectorAll('.reveal');
         reveals.forEach(element => {
