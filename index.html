@@ -4,10 +4,513 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shree Vishwakarma Handicraft & Timber</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- PREMIUM WHITE & GOLD THEME CSS --- */
+        :root {
+            --primary-gold: #D4AF37;
+            --dark-gold: #AA7C11;
+            --light-gold: #F3E5AB;
+            --white: #FFFFFF;
+            --bg-light: #FAFAFA;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Loading Preloader */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--white);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animation Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        .btn:hover {
+            background: transparent;
+            color: var(--primary-gold);
+            border-color: var(--primary-gold);
+            transform: translateY(-3px);
+        }
+
+        /* Header & Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            border-bottom: 2px solid var(--light-gold);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo img {
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
+        }
+        .logo-text h2 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--primary-gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover {
+            color: var(--primary-gold);
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        /* Hero Slider */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slider-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide.active { opacity: 1; }
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Sections Common */
+        section {
+            padding: 80px 8%;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 3px;
+            background: var(--primary-gold);
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+
+        /* Filter Controls */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 25px;
+            border: 1px solid var(--primary-gold);
+            background: var(--white);
+            color: var(--text-dark);
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-gold);
+            color: var(--white);
+        }
+
+        /* Grid Cards Setup */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.15);
+            border-color: var(--primary-gold);
+        }
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 240px;
+            cursor: pointer;
+        }
+        .card-img-wrapper img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .card:hover .card-img-wrapper img {
+            transform: scale(1.1);
+        }
+        .card-info {
+            padding: 20px;
+            text-align: center;
+        }
+        .card-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .card-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Filter Item Transition Animation */
+        .grid-item { 
+            display: block; 
+            animation: fadeIn 0.5s ease; 
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+        .service-card {
+            background: var(--white);
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 8px;
+            border-bottom: 3px solid transparent;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+        }
+        .service-card:hover {
+            border-bottom-color: var(--primary-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        /* About Us Section */
+        .about-content {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* Contact & Map Layout */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .contact-details {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            border-top: 4px solid var(--primary-gold);
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .contact-item i {
+            font-size: 1.3rem;
+            color: var(--primary-gold);
+            width: 40px; height: 40px;
+            background: rgba(212, 175, 55, 0.1);
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 50%;
+        }
+        .contact-item p {
+            font-size: 1rem; color: var(--text-dark);
+        }
+        .map-container {
+            width: 100%; height: 100%;
+            min-height: 350px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            border: 2px solid var(--light-gold);
+        }
+        .map-container iframe {
+            width: 100%; height: 100%; min-height: 350px; border: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            border-top: 3px solid var(--primary-gold);
+            font-size: 0.9rem;
+        }
+
+        /* Floating Action Controls */
+        .floating-btn {
+            position: fixed;
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            color: var(--white);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .floating-btn:hover { transform: scale(1.1) translateY(-3px); }
+        
+        .btn-whatsapp { bottom: 30px; right: 30px; background-color: #25D366; }
+        .btn-call { bottom: 100px; right: 30px; background-color: #0076FF; }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 170px; right: 30px;
+            background-color: var(--primary-gold);
+            color: var(--white);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 999;
+            opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+        .scroll-top.show { opacity: 1; visibility: visible; }
+
+        /* Lightbox */
+        #customLightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        #customLightbox img {
+            max-width: 90%; max-height: 85%;
+            border-radius: 4px;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 0 25px rgba(212,175,55,0.5);
+        }
+        #customLightbox .close-btn {
+            position: absolute;
+            top: 30px; right: 40px;
+            color: var(--white);
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        #customLightbox .close-btn:hover { color: var(--primary-gold); }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .navbar { padding: 15px 5%; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .contact-wrapper { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                position: absolute;
+                top: 80px; left: -100%; width: 100%; height: auto;
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                gap: 25px;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                transition: var(--transition);
+                border-bottom: 2px solid var(--light-gold);
+            }
+            .nav-links.active { left: 0; }
+            .hero-content h1 { font-size: 2.2rem; }
+            section { padding: 60px 5%; }
+            .floating-btn { width: 50px; height: 50px; font-size: 1.4rem; right: 20px; }
+            .btn-call { bottom: 85px; }
+            .scroll-top { bottom: 150px; right: 22px; width: 40px; height: 40px; }
+        }
+    </style>
 </head>
 <body>
+
+<div id="loader">
+    <div class="spinner"></div>
+</div>
 
 <nav class="navbar">
     <div class="logo">
@@ -17,329 +520,331 @@
             <span>Handicraft & Timber</span>
         </div>
     </div>
-
+    <div class="hamburger" id="hamburger">
+        <i class="fa-solid fa-bars"></i>
+    </div>
     <ul class="nav-links" id="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#cnc">CNC </a></li>
-           <li><a href="#Molding">Molding</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#home" class="nav-item">Home</a></li>
+        <li><a href="#gallery" class="nav-item">Our Gallery</a></li>
+        <li><a href="#services" class="nav-item">Services</a></li>
+        <li><a href="#about" class="nav-item">About</a></li>
+        <li><a href="#contact" class="nav-item">Contact</a></li>
     </ul>
 </nav>
 
 <section class="hero" id="home">
+    <div class="slider-container">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1517705008128-361805f42e86');"></div>
+    </div>
     <div class="hero-content">
         <h1>Vishwakarma Furniture & CNC Design</h1>
         <p>Beautiful, Durable and Custom-Made Furniture for Your Dream Home.</p>
-        <a href="#products" class="btn">Explore Collection</a>
+        <a href="#gallery" class="btn">Explore Gallery</a>
     </div>
 </section>
 
-<section class="products" id="products">
-    <h2>Factory Products</h2>
-    <div class="product-container">
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" alt="Luxury Sofa" onclick="openLightbox(this)">
+<section id="gallery" class="reveal">
+    <h2 class="section-title">Our Premium Showcase</h2>
+    <p class="section-subtitle">Use the dynamic filters below to browse our complete collection</p>
+    
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterGallery('all')">Show All</button>
+        <button class="filter-btn" onclick="filterGallery('factory')">Factory Products</button>
+        <button class="filter-btn" onclick="filterGallery('cnc')">CNC Designs</button>
+        <button class="filter-btn" onclick="filterGallery('molding')">Molding Designs</button>
+    </div>
+
+    <div class="grid-container" id="gallery-grid">
+        
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" alt="Luxury Sofa">
             </div>
-            <h3>Luxury Sofa</h3>
-            <p>Modern Premium Sofa Collection</p>
+            <div class="card-info"><h3>Luxury Sofa</h3><p>Modern Premium Sofa Collection</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCgeyzLVRXRlnHcOoqmwxm76QWg-GqhygEpf7oULcb9JyjbalWBGZXGglX&s=10" alt="Dining Table" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCgeyzLVRXRlnHcOoqmwxm76QWg-GqhygEpf7oULcb9JyjbalWBGZXGglX&s=10" alt="Dining Table">
             </div>
-            <h3>Dining Table</h3>
-            <p>Elegant Dining Furniture</p>
+            <div class="card-info"><h3>Dining Table</h3><p>Elegant Dining Furniture</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1517705008128-361805f42e86" alt="Wooden Chair" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://images.unsplash.com/photo-1517705008128-361805f42e86" alt="Wooden Chair">
             </div>
-            <h3>Wooden Chair</h3>
-            <p>Stylish Wooden Chairs</p>
+            <div class="card-info"><h3>Wooden Chair</h3><p>Stylish Wooden Chairs</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85" alt="Bed" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85" alt="Bed">
             </div>
-            <h3>Bed</h3>
-            <p>Luxury Wooden Beds</p>
+            <div class="card-info"><h3>Bed</h3><p>Luxury Wooden Beds</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2" alt="Wardrobe" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2" alt="Wardrobe">
             </div>
-            <h3>Wooden Wardrobe</h3>
-            <p>Premium Bedroom Almari Solutions</p>
+            <div class="card-info"><h3>Wooden Wardrobe</h3><p>Premium Bedroom Almari Solutions</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9BtMs46fkA2JZN6-RCD6UIQhz4IHfiKv41xhJYZk0UA&s=10" alt="TV Unit" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9BtMs46fkA2JZN6-RCD6UIQhz4IHfiKv41xhJYZk0UA&s=10" alt="TV Unit">
             </div>
-            <h3>Modern TV Unit</h3>
-            <p>Elegant Living Room LED Panels</p>
+            <div class="card-info"><h3>Modern TV Unit</h3><p>Elegant Living Room LED Panels</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxT2gM2ufTj8HS0ocWP32M019zSG9j4PE1sghydmzig&s=10" alt="Dressing Table" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxT2gM2ufTj8HS0ocWP32M019zSG9j4PE1sghydmzig&s=10" alt="Dressing Table">
             </div>
-            <h3>Dressing Table</h3>
-            <p>Stylish Wooden Makeup Vanity</p>
+            <div class="card-info"><h3>Dressing Table</h3><p>Stylish Wooden Makeup Vanity</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEhGeF_baVfvNALq9Tf824evqHXcr5kevBpTQy2528Kw&s=10" alt="Office Table" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEhGeF_baVfvNALq9Tf824evqHXcr5kevBpTQy2528Kw&s=10" alt="Office Table">
             </div>
-            <h3>Office Table</h3>
-            <p>Executive Wooden Desk for Work</p>
+            <div class="card-info"><h3>Office Table</h3><p>Executive Wooden Desk for Work</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkTRfmSkI6nVJbTJ0Wn-mVJ0JdEq7gTs0FjpJW2X3Kw&s=10" alt="Sofa Chair" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkTRfmSkI6nVJbTJ0Wn-mVJ0JdEq7gTs0FjpJW2X3Kw&s=10" alt="Sofa Chair">
             </div>
-            <h3>Armchair & Lounge</h3>
-            <p>Comfortable Wooden Accent Chairs</p>
+            <div class="card-info"><h3>Armchair & Lounge</h3><p>Comfortable Wooden Accent Chairs</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_RSI0mMv8029yl_JrXIrX-6ioGX4v65YgpS8BnHJFA&s=10" alt="Shoe Rack" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_RSI0mMv8029yl_JrXIrX-6ioGX4v65YgpS8BnHJFA&s=10" alt="Shoe Rack">
             </div>
-            <h3>Wooden Shoe Rack</h3>
-            <p>Organized Home Entryway Furniture</p>
+            <div class="card-info"><h3>Wooden Shoe Rack</h3><p>Organized Home Entryway Furniture</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHTrRx4jBvcr5c0jOt9ges3xBOZN_WOji79-PabIvsXQ&s=10" alt="Stool" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHTrRx4jBvcr5c0jOt9ges3xBOZN_WOji79-PabIvsXQ&s=10" alt="Stool">
             </div>
-            <h3>Bar & Counter Stool</h3>
-            <p>Premium High-Quality Wooden Stools</p>
+            <div class="card-info"><h3>Bar & Counter Stool</h3><p>Premium High-Quality Wooden Stools</p></div>
         </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8sgzllpf4TccTOOeVUtntiCmhA5OEj0QfEClkH1gzrw&s=10" alt="Bookshelf" onclick="openLightbox(this)">
+        <div class="card grid-item factory">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8sgzllpf4TccTOOeVUtntiCmhA5OEj0QfEClkH1gzrw&s=10" alt="Bookshelf">
             </div>
-            <h3>Designer Bookshelf</h3>
-            <p>Luxury Library & Book Display Racks</p>
+            <div class="card-info"><h3>Designer Bookshelf</h3><p>Luxury Library & Book Display Racks</p></div>
         </div>
+
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVf79DgkVoYB19aXhAiE94Vzv8wPdafM2sc_dc2JUFnoqMXrglkL_C_1I&s=10" alt="CNC Door">
+            </div>
+            <div class="card-info"><h3>CNC Door Design</h3><p>Premium Wooden Door Designs</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAGRw-7oBIUXIX5bL3Ies2MX4M7mt_CAqEwLR6a8Y_Mg&s=10" alt="Jali Cutting">
+            </div>
+            <div class="card-info"><h3>Jali Cutting</h3><p>Decorative CNC Jali Work</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSqiCmv1crBXZE1K-Si2ZLi7kUFzWzvRw0KCq0PxjEdQ&s=10" alt="Round Design">
+            </div>
+            <div class="card-info"><h3>Round Design</h3><p>Custom CNC Cutting Designs</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtaGWNiV5LoEYVp3zLXItnXUzEvKESQfcDWCR5pr4T9g&s=10" alt="Wood Carving">
+            </div>
+            <div class="card-info"><h3>Wood Carving</h3><p>Luxury CNC Wooden Art</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRltnWB8B5adF-cR53ssyS8V-Agu4dX0rjNUjsXrz9eXQ&s=10" alt="Mandir Back Panel">
+            </div>
+            <div class="card-info"><h3>Mandir Back Panel</h3><p>Divine Patterns for Pooja Room Backdrops</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDlb1JEGNA2Wu6fDj0l-xyvIu13LGUXX97hj9K9N5nf5R2LChZp5hSBQU&s=10" alt="Bed Headboard Design">
+            </div>
+            <div class="card-info"><h3>Bed Headboard Design</h3><p>Elegant 3D Carving for Luxury Beds</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhYc0E6K9syaSEvnb9f6Zk5V99CAD0aWnFnCTcIw7_UA&s=10" alt="Ceiling Jali">
+            </div>
+            <div class="card-info"><h3>Roof Ceiling Jali</h3><p>CNC Jali Work for Interior Roof Lighting</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Agvpdgl0v0K-nVZYo6VQeCE4vx8s4xEAk-yJSbdmkg&s=10" alt="Corner Design">
+            </div>
+            <div class="card-info"><h3>Corner & Border Carving</h3><p>Decorative Corner Borders for Frames & Pillars</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSKEJp97hdKUj6_PD7bgg4W-X-Gd1VYRxqjsBzdVU-Q&s=10" alt="Cabinet Door">
+            </div>
+            <div class="card-info"><h3>Cabinet Wardrobe CNC</h3><p>Stylish Grooving on Wardrobe & Kitchen Shutters</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://images.jdmagicbox.com/quickquotes/images_main/mtc0njuznjy3mg-1746536672-yzzb84f2.jpg" alt="Wooden Arch Gate">
+            </div>
+            <div class="card-info"><h3>Wooden Arch Gate</h3><p>CNC Carving for Traditional Room Openings</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbo2mABfjlr2D97SfK3xNcCHLHq3bfs59eWwn4-ZoFKw&s=10" alt="Partition Wall">
+            </div>
+            <div class="card-info"><h3>Room Partition Jali</h3><p>Modern Living Room Divider Jali Work</p></div>
+        </div>
+        <div class="card grid-item cnc">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0JT8YCYk0DQKiLIqNA6xpp9UC2kYqBAUKHmS192xCw&s=10" alt="Custom MDF Panels">
+            </div>
+            <div class="card-info"><h3>3D Wave Wall Panel</h3><p>MDF CNC Carving for Elegant Wall Decoration</p></div>
+        </div>
+
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoEvzmuXoUgVxoF34xNdJrZkk4qbhMgn37rA&s" alt="CNC Door">
+            </div>
+            <div class="card-info"><h3>CNC Door Design</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcdAyfHo_ihgxEnNpqwrefWZNcI6DvfWyKww&s" alt="Door Molding">
+            </div>
+            <div class="card-info"><h3>Door Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://i.pinimg.com/236x/6c/aa/53/6caa53417c1a37eaa6066859b9281b4d.jpg" alt="Wall Molding">
+            </div>
+            <div class="card-info"><h3>Wood Molding on Walls</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://www.wellsreclamation.com/images/products/standard/1077g.jpg" alt="Wood Molding">
+            </div>
+            <div class="card-info"><h3>Wood Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://5.imimg.com/data5/SELLER/Default/2023/5/306763274/OB/AR/CP/29707017/whatsapp-image-2023-05-09-at-2-40-13-pm-500x500.jpeg" alt="MDF Molding">
+            </div>
+            <div class="card-info"><h3>MDF Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://legnoform.it/images/dettagli/lineare_con_rosette.jpg" alt="Main Door Molding">
+            </div>
+            <div class="card-info"><h3>Main Door Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://i.etsystatic.com/60776200/r/il/a62427/8095907674/il_fullxfull.8095907674_3du1.jpg" alt="New Look Molding">
+            </div>
+            <div class="card-info"><h3>New Look Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1ELpm8GZIV-qCv0DLc5Y7JkoKP2yLMK4sg&s" alt="Corner Border Molding">
+            </div>
+            <div class="card-info"><h3>Corner & Border Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5JyhhNlkDynbW5JaL69xekub0pjDoOC0rZBWmcPbolA&s" alt="Look Molding">
+            </div>
+            <div class="card-info"><h3>Look Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgsprvniUn8AqhN-pH1vRPsK7cVz19TTA8Gw&s" alt="Side Corner Molding">
+            </div>
+            <div class="card-info"><h3>Side Corner Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg8g-T4xquCPU_wjJ1wyYs687o6P86GvpY2Q&s" alt="Old Look Molding">
+            </div>
+            <div class="card-info"><h3>Old Look Molding</h3><p>Premium Molding work</p></div>
+        </div>
+        <div class="card grid-item molding">
+            <div class="card-img-wrapper" onclick="openLightbox(this.querySelector('img'))">
+                <img src="https://i.pinimg.com/236x/8b/e4/27/8be4273471a964f97d398293e14d6bce.jpg" alt="Cornice Design">
+            </div>
+            <div class="card-info"><h3>Cornice Design</h3><p>Premium Molding work</p></div>
+        </div>
+
     </div>
 </section>
 
-<section class="products">
-    <h2>Services</h2>
-    <div class="product-container">
-        <div class="card service-card">
+<section id="services" class="reveal">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-subtitle">We craft unique wood experiences according to your requirements</p>
+    <div class="services-grid">
+        <div class="service-card">
+            <i class="fa-solid fa-couch"></i>
             <h3>Custom Furniture</h3>
-            <p>Furniture Made According To Your Requirement</p>
+            <p>Furniture made completely according to your dimensions and home requirements.</p>
         </div>
-        <div class="card service-card">
+        <div class="service-card">
+            <i class="fa-solid fa-computer"></i>
             <h3>CNC Cutting</h3>
-            <p>High Precision CNC Work</p>
+            <p>High precision machinery operations for flawless and sharp detailing.</p>
         </div>
-        <div class="card service-card">
+        <div class="service-card">
+            <i class="fa-solid fa-tree"></i>
             <h3>Wood Carving</h3>
-            <p>Premium Decorative Designs</p>
+            <p>Premium decorative authentic relief designs crafted by specialists.</p>
         </div>
-        <div class="card service-card">
+        <div class="service-card">
+            <i class="fa-solid fa-house-chimney"></i>
             <h3>Interior Work</h3>
-            <p>Complete Wooden Interior Solutions</p>
+            <p>Complete execution solutions for modern rooms, luxury villas and offices.</p>
         </div>
     </div>
 </section>
 
-<section class="cnc-section" id="cnc">
-    <h2>CNC Carving Design</h2>
-    <div class="product-container">
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVf79DgkVoYB19aXhAiE94Vzv8wPdafM2sc_dc2JUFnoqMXrglkL_C_1I&s=10" alt="CNC Door" onclick="openLightbox(this)">
-            </div>
-            <h3>CNC Door Design</h3>
-            <p>Premium Wooden Door Designs</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAGRw-7oBIUXIX5bL3Ies2MX4M7mt_CAqEwLR6a8Y_Mg&s=10" alt="Jali Cutting" onclick="openLightbox(this)">
-            </div>
-            <h3>Jali Cutting</h3>
-            <p>Decorative CNC Jali Work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSqiCmv1crBXZE1K-Si2ZLi7kUFzWzvRw0KCq0PxjEdQ&s=10" alt="Round Design" onclick="openLightbox(this)">
-            </div>
-            <h3>Round Design</h3>
-            <p>Custom CNC Cutting Designs</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtaGWNiV5LoEYVp3zLXItnXUzEvKESQfcDWCR5pr4T9g&s=10" alt="Wood Carving" onclick="openLightbox(this)">
-            </div>
-            <h3>Wood Carving</h3>
-            <p>Luxury CNC Wooden Art</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRltnWB8B5adF-cR53ssyS8V-Agu4dX0rjNUjsXrz9eXQ&s=10" alt="Mandir Back Panel" onclick="openLightbox(this)">
-            </div>
-            <h3>Mandir Back Panel</h3>
-            <p>Divine Patterns for Pooja Room Backdrops</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDlb1JEGNA2Wu6fDj0l-xyvIu13LGUXX97hj9K9N5nf5R2LChZp5hSBQU&s=10" alt="Bed Headboard Design" onclick="openLightbox(this)">
-            </div>
-            <h3>Bed Headboard Design</h3>
-            <p>Elegant 3D Carving for Luxury Beds</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhYc0E6K9syaSEvnb9f6Zk5V99CAD0aWnFnCTcIw7_UA&s=10" alt="Ceiling Jali" onclick="openLightbox(this)">
-            </div>
-            <h3>Roof Ceiling Jali</h3>
-            <p>CNC Jali Work for Interior Roof Lighting</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Agvpdgl0v0K-nVZYo6VQeCE4vx8s4xEAk-yJSbdmkg&s=10" alt="Corner Design" onclick="openLightbox(this)">
-            </div>
-            <h3>Corner & Border Carving</h3>
-            <p>Decorative Corner Borders for Frames & Pillars</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSKEJp97hdKUj6_PD7bgg4W-X-Gd1VYRxqjsBzdVU-Q&s=10" alt="Cabinet Door" onclick="openLightbox(this)">
-            </div>
-            <h3>Cabinet Wardrobe CNC</h3>
-            <p>Stylish Grooving on Wardrobe & Kitchen Shutters</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://images.jdmagicbox.com/quickquotes/images_main/mtc0njuznjy3mg-1746536672-yzzb84f2.jpg" alt="Wooden Arch Gate" onclick="openLightbox(this)">
-            </div>
-            <h3>Wooden Arch Gate</h3>
-            <p>CNC Carving for Traditional Room Openings</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbo2mABfjlr2D97SfK3xNcCHLHq3bfs59eWwn4-ZoFKw&s=10" alt="Partition Wall" onclick="openLightbox(this)">
-            </div>
-            <h3>Room Partition Jali</h3>
-            <p>Modern Living Room Divider Jali Work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv0JT8YCYk0DQKiLIqNA6xpp9UC2kYqBAUKHmS192xCw&s=10" alt="Custom MDF Panels" onclick="openLightbox(this)">
-            </div>
-            <h3>3D Wave Wall Panel</h3>
-            <p>MDF CNC Carving for Elegant Wall Decoration</p>
-        </div>
+<section id="about" class="reveal" style="background-color: #fdfdfd;">
+    <h2 class="section-title">About Us</h2>
+    <p class="section-subtitle">Legacy of wooden craftsmanship</p>
+    <div class="about-content">
+        <p>
+            Shree Vishwakarma Handicraft & Timber provides premium furniture, CNC cutting, wood carving, jali cutting and customized furniture solutions. We specialize in residential, commercial, corporate office, and hotel architectural project management.
+        </p>
     </div>
-</section>
-<section class="cnc-section" id="cnc">
-    <h2>Molding design</h2>
-    <div class="product-container">
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoEvzmuXoUgVxoF34xNdJrZkk4qbhMgn37rA&s" alt="CNC Door" onclick="openLightbox(this)">
-            </div>
-            <h3>CNC Door Design</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcdAyfHo_ihgxEnNpqwrefWZNcI6DvfWyKww&s" alt="Jali Cutting" onclick="openLightbox(this)">
-            </div>
-            <h3>door Molding </h3>
-            <p> Premium Molding work </p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://i.pinimg.com/236x/6c/aa/53/6caa53417c1a37eaa6066859b9281b4d.jpg" alt="Round Design" onclick="openLightbox(this)">
-            </div>
-            <h3>wood-moulding-on-walls</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://www.wellsreclamation.com/images/products/standard/1077g.jpg" alt="Wood Carving" onclick="openLightbox(this)">
-            </div>
-            <h3>Wood molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://5.imimg.com/data5/SELLER/Default/2023/5/306763274/OB/AR/CP/29707017/whatsapp-image-2023-05-09-at-2-40-13-pm-500x500.jpeg" alt="Mandir Back Panel" onclick="openLightbox(this)">
-            </div>
-            <h3>MDF molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://legnoform.it/images/dettagli/lineare_con_rosette.jpg" alt="Bed Headboard Design" onclick="openLightbox(this)">
-            </div>
-            <h3>main door molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://i.etsystatic.com/60776200/r/il/a62427/8095907674/il_fullxfull.8095907674_3du1.jpg" alt="Ceiling Jali" onclick="openLightbox(this)">
-            </div>
-            <h3>new look molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1ELpm8GZIV-qCv0DLc5Y7JkoKP2yLMK4sg&s" alt="Corner Design" onclick="openLightbox(this)">
-            </div>
-            <h3>Corner & Border molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5JyhhNlkDynbW5JaL69xekub0pjDoOC0rZBWmcPbolA&s" alt="Cabinet Door" onclick="openLightbox(this)">
-            </div>
-            <h3>look molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgsprvniUn8AqhN-pH1vRPsK7cVz19TTA8Gw&s" alt="Wooden Arch Gate" onclick="openLightbox(this)">
-            </div>
-            <h3>side courner molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg8g-T4xquCPU_wjJ1wyYs687o6P86GvpY2Q&s" alt="Partition Wall" onclick="openLightbox(this)">
-            </div>
-            <h3>old look molding</h3>
-            <p>Premium Molding work</p>
-        </div>
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="https://i.pinimg.com/236x/8b/e4/27/8be4273471a964f97d398293e14d6bce.jpg" alt="Custom MDF Panels" onclick="openLightbox(this)">
-            </div>
-            <h3>cornice design</h3>
-            <p>Premium Molding work</p>
-        </div>
-    </div>
-<section class="about" id="about">
-    <h2>About Us</h2>
-    <p>
-        Shree Vishwakarma Handicraft & Timber provides premium furniture, CNC cutting, wood carving, jali cutting and customized furniture solutions.
-        We specialize in residential, commercial, office and hotel furniture projects.
-    </p>
 </section>
 
-<section class="contact" id="contact">
-    <h2>Contact Us</h2>
-    <p><strong>Owner:</strong> Chanana Ram Ji Suthar</p>
-    <p>📱 Phone No: +91 9413576761</p>
-    <p>💬 WhatsApp: +91 9460053470</p>
-    <p>📍 17A Bhadu Market, Pal Road, Jodhpur, Rajasthan - 342005</p>
-    <a href="https://wa.me/919460053470" class="btn">WhatsApp Now</a>
+<section id="contact" class="reveal">
+    <h2 class="section-title">Connect With Us</h2>
+    <p class="section-subtitle">Get instant custom item quotes or visit our facility</p>
+    
+    <div class="contact-wrapper">
+        <div class="contact-details">
+            <div class="contact-item">
+                <i class="fa-solid fa-user"></i>
+                <div><p style="font-weight:600;">Owner</p><p>Chanana Ram Ji Suthar</p></div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <div><p style="font-weight:600;">Phone Number</p><p>+91 9413576761</p></div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <div><p style="font-weight:600;">Email Address</p><p>info@vishwakarmafurniture.com</p></div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <div><p style="font-weight:600;">Factory Location</p><p>17A Bhadu Market, Pal Road, Jodhpur, Rajasthan - 342005</p></div>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3577.6254425310617!2d73.0006764!3d26.2738466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39418c4b26090e3f%3A0x633e24483e3cf75c!2sBhadu%20Market%2C%20Jodhpur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
 </section>
 
 <footer>
@@ -347,30 +852,119 @@
 </footer>
 
 <div id="customLightbox">
-    <span onclick="closeLightbox()">&times;</span>
-    <img id="lightboxImg" src="" alt="Popup Large View">
+    <span class="close-btn" onclick="closeLightbox()">×</span>
+    <img id="lightboxImg" src="" alt="Popup View Area">
 </div>
 
+<a href="tel:+919413576761" class="floating-btn btn-call" title="Call Us"><i class="fa-solid fa-phone"></i></a>
+<a href="https://wa.me/919460053470" class="floating-btn btn-whatsapp" target="_blank" title="WhatsApp Chat"><i class="fa-brands fa-whatsapp"></i></a>
+<div class="scroll-top" id="scrollTop" onclick="scrollToTop()"><i class="fa-solid fa-arrow-up"></i></div>
+
 <script>
-    function openLightbox(element) {
-        var lightbox = document.getElementById("customLightbox");
-        var lightboxImg = document.getElementById("lightboxImg");
-        lightboxImg.src = element.src;  
+    // 1. Loading Preloader Controls Animation
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 500);
+    });
+
+    // 2. Responsive Hamburger Menu Toggle Controls
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        hamburger.querySelector('i').classList.toggle('fa-bars');
+        hamburger.querySelector('i').classList.toggle('fa-xmark');
+    });
+
+    document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            hamburger.querySelector('i').classList.add('fa-bars');
+            hamburger.querySelector('i').classList.remove('fa-xmark');
+        });
+    });
+
+    // 3. Automated Hero Banner Background Image Slider System
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    
+    function showNextHeroSlide() {
+        slides[currentSlideIndex].classList.remove('active');
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        slides[currentSlideIndex].classList.add('active');
+    }
+    setInterval(showNextHeroSlide, 4000); // Transitions automatically every 4 seconds
+
+    // 4. Dynamic Gallery Sorting Core Logic
+    function filterGallery(category) {
+        // Active Filter Button Class Switch
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        // Gallery Elements Sorting Render Engine
+        const targetItems = document.querySelectorAll('.grid-item');
+        targetItems.forEach(item => {
+            if (category === 'all' || item.classList.contains(category)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // 5. Image Lightbox View Pop-up Manager
+    function openLightbox(elementImg) {
+        const lightbox = document.getElementById("customLightbox");
+        const lightboxImg = document.getElementById("lightboxImg");
+        lightboxImg.src = elementImg.src;  
         lightbox.style.display = "flex"; 
         document.body.style.overflow = "hidden"; 
     }
 
     function closeLightbox() {
-        var lightbox = document.getElementById("customLightbox");
+        const lightbox = document.getElementById("customLightbox");
         lightbox.style.display = "none"; 
         document.body.style.overflow = "auto"; 
     }
 
-    document.getElementById("customLightbox").addEventListener("click", function(event) {
-        if (event.target !== document.getElementById("lightboxImg")) {
+    document.getElementById("customLightbox").addEventListener("click", function(e) {
+        if (e.target !== document.getElementById("lightboxImg")) {
             closeLightbox();
         }
     });
+
+    // 6. Floating Action Scroll to Top Mechanics
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+        }
+    });
+    
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 7. Scroll Reveal Trigger Engine (For smooth section layout viewing animation)
+    function revealSectionsOnScroll() {
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach(element => {
+            const windowHeight = window.innerHeight;
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisibleDistance = 150;
+            
+            if (elementTop < windowHeight - elementVisibleDistance) {
+                element.classList.add('active');
+            }
+        });
+    }
+    window.addEventListener('scroll', revealSectionsOnScroll);
+    revealSectionsOnScroll(); // Trigger base invocation check
 </script>
 
 </body>
